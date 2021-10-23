@@ -1,0 +1,26 @@
+{
+  "name": "simonso-node",
+  "version": "1.0.0",
+  "description": "//\r Må kjøres 1 gang (npm init & install)\r npm init -y",
+  "main": "localenv.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjetkr01/simonso-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kjetkr01/simonso-node/issues"
+  },
+  "homepage": "https://github.com/kjetkr01/simonso-node#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "pg": "^8.7.1"
+  }
+}

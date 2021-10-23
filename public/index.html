@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simonso test</title>
+    <meta charset="utf-8" />
+
+    <button onclick="addViewCount(true)">AddViewCount (returner antall)</button>
+    <button onclick="addViewCount()">AddViewCount</button>
+
+    <div id="viewCountDiv"></div>
+
+    <div id="infoDiv"></div>
+
+</head>
+<body>
+
+</body>
+<script>
+    "use strict";
+    addViewCount(true);
+
+    async function addViewCount(aReturnViewCount) {
+
+        const body = {
+            "userInfo": "Noe sånt",
+            "returnNumber": aReturnViewCount
+        }
+
+        const config = {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(body)
+        }
+
+        const infoDiv = document.getElementById("infoDiv");
+        infoDiv.innerHTML = "";
+
+        const response = await fetch("/addViewCount", config);
+
+        if (response.status === 200) {
+
+            infoDiv.innerHTML = "ViewCount ble oppdatert!";
+
+            if (aReturnViewCount === true) {
+                const viewCountDiv = document.getElementById("viewCountDiv");
+                const data = await response.json();
+                if (data.viewCount && data.viewCount !== null) {
+                    viewCountDiv.innerHTML = data.viewCount;
+                }
+            }
+
+        } else {
+            infoDiv.innerHTML = "Det oppstod en feil. ViewCount ble ikke oppdatert!";
+        }
+    }
+
+</script>
+</html>
