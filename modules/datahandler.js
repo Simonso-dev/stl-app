@@ -16,11 +16,18 @@ class StorageHandler {
         const client = new pg.Client(this.credentials); // pass på at denne stemmer med variabelen over
         let results = false;
 
+        console.log(userInfo);
+
         // evt kan du gjøre noe med user info
 
         let viewCount = null;
         try {
             await client.connect();
+
+            await client.query(`
+                INSERT INTO userInfo
+                VALUES ($1);
+            `,[userInfo]);
 
             results = await client.query(`
                 SELECT viewCount
@@ -50,6 +57,36 @@ class StorageHandler {
         client.end();
 
         return { "status": results, "viewCount": viewCount };
+    }
+    async getAllVisits() {
+        const client = new pg.Client(this.credentials); // pass på at denne stemmer med variabelen over
+        let results = false;
+
+        // evt kan du gjøre noe med user info
+
+        let allVisits = [];
+        try {
+            await client.connect();
+            
+            allVisits = await client.query(`
+                SELECT *
+                FROM userInfo`);
+            // her må du oppdatere variabelen slik at den blir viewCount fra databasen
+            // gjør slik at results = viewCount
+            // results = results.rows[0].viewcount;
+            allVisits = allVisits.rows;
+
+            results = true;
+        } 
+        catch (err) {
+            results = false;
+            client.end();
+            console.log(err);
+        }
+
+        client.end();
+
+        return { "status": results, "allVisits": allVisits };
     }
 }
 

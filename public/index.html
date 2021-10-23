@@ -10,6 +10,7 @@
     <div id="viewCountDiv"></div>
 
     <div id="infoDiv"></div>
+    <div id="userInfo"></div>
 
 </head>
 <body>
@@ -18,11 +19,14 @@
 <script>
     "use strict";
     addViewCount(true);
+    getAllVisits();
 
     async function addViewCount(aReturnViewCount) {
 
+        const currentTime = new Date();
+
         const body = {
-            "userInfo": "Noe sånt",
+            "userInfo": currentTime,
             "returnNumber": aReturnViewCount
         }
 
@@ -55,6 +59,28 @@
             infoDiv.innerHTML = "Det oppstod en feil. ViewCount ble ikke oppdatert!";
         }
     }
+
+    async function getAllVisits() {
+        const config = {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+        }
+        const response = await fetch("/getAllVisits", config);
+
+        if(response.status === 200) {
+            const data = await response.json();
+            console.log(data);
+
+            for(let i = 0; i < data.allVisits.length; i++) {
+                const current = data.allVisits[i].lastvisit;
+                document.getElementById("userInfo").innerHTML += current + "<br>";
+            }
+        }
+    }
+
+
 
 </script>
 </html>
